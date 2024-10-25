@@ -2,7 +2,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 
-const Login = () => {
+const Login = ({ onLogin }) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [message, setMessage] = useState('');
@@ -15,8 +15,8 @@ const Login = () => {
                 password,
             });
             setMessage(response.data.message);
-            // Almacena el token en localStorage o en el estado global
             localStorage.setItem('token', response.data.token);
+            onLogin(); // Cambia el estado de autenticación
         } catch (error) {
             setMessage(error.response.data.message || 'Error al iniciar sesión');
         }
