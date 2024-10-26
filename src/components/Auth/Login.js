@@ -1,24 +1,32 @@
-// src/components/Auth/Login.js
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
+import AuthContext from '../../context/AuthContext';
 
-const Login = ({ onLogin }) => {
+const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [message, setMessage] = useState('');
+    const [error, setError] = useState('');
+    const { login } = useContext(AuthContext);
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setError('');
         try {
             const response = await axios.post('http://localhost:3009/api/auth/login', {
                 email,
                 password,
             });
-            setMessage(response.data.message);
             localStorage.setItem('token', response.data.token);
-            onLogin(); // Cambia el estado de autenticación
-        } catch (error) {
-            setMessage(error.response.data.message || 'Error al iniciar sesión');
+            login(); // Cambia el estado global
+            navigate('/'); // Redirigir al inicio después de iniciar sesión
+        } catch (err) {
+            if (err.response && err.response.status === 401) {
+                setError('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
+            } else {
+                setError('Ocurrió un error. Inténtalo más tarde.');
+            }
         }
     };
 
@@ -30,7 +38,7 @@ const Login = ({ onLogin }) => {
                 <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
                 <button type="submit">Iniciar Sesión</button>
             </form>
-            {message && <p>{message}</p>}
+            {error && <p style={{ color: 'red' }}>{error}</p>}
         </div>
     );
 };
