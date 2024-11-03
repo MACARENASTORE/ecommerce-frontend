@@ -1,30 +1,33 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+// src/components/navbar/Navbar.js
+import React, { useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import AuthContext from '../../context/AuthContext';
+import './Navbar.css';  // Archivo CSS para estilos
 
-const Navbar = ({ isAuthenticated, onLogout }) => {
+const Navbar = () => {
+    const { user, logout } = useContext(AuthContext);
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        logout();
+        navigate('/');
+    };
+
     return (
-        <nav>
-            <ul>
-                <li>
-                    <Link to="/">Inicio</Link>
-                </li>
-                {isAuthenticated ? (
+        <nav className="navbar">
+            <Link to="/" className="logo">MacarenaStore</Link>
+            <ul className="nav-links">
+                {!user ? (
                     <>
-                        <li>
-                            <Link to="/profile">Perfil</Link>
-                        </li>
-                        <li>
-                            <button onClick={onLogout}>Cerrar Sesión</button>
-                        </li>
+                        <li><Link to="/login">Iniciar sesión</Link></li>
+                        <li><Link to="/register">Registro</Link></li>
                     </>
                 ) : (
                     <>
-                        <li>
-                            <Link to="/login">Iniciar Sesión</Link>
-                        </li>
-                        <li>
-                            <Link to="/register">Registrarse</Link>
-                        </li>
+                        <li><Link to="/products">Productos</Link></li>
+                        <li><Link to="/cart">Carrito</Link></li>
+                        <li><Link to="/profile">Perfil</Link></li>
+                        <li><button onClick={handleLogout} className="logout-button">Cerrar sesión</button></li>
                     </>
                 )}
             </ul>

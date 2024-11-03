@@ -1,46 +1,56 @@
+// src/components/Auth/Login.js
 import React, { useState, useContext } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { login as authLogin } from '../../services/authService';
 import AuthContext from '../../context/AuthContext';
 
 const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [error, setError] = useState('');
-    const { login } = useContext(AuthContext);
-    const navigate = useNavigate();
+   const [credentials, setCredentials] = useState({ email: '', password: '' });
+   const [error, setError] = useState('');
+   const { authenticateUser } = useContext(AuthContext);  // Llamar a authenticateUser
+   const navigate = useNavigate();
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        setError('');
-        try {
-            const response = await axios.post('http://localhost:3009/api/auth/login', {
-                email,
-                password,
-            });
-            localStorage.setItem('token', response.data.token);
-            login(); // Cambia el estado global
-            navigate('/'); // Redirigir al inicio después de iniciar sesión
-        } catch (err) {
-            if (err.response && err.response.status === 401) {
-                setError('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
-            } else {
-                setError('Ocurrió un error. Inténtalo más tarde.');
-            }
-        }
-    };
+   const handleChange = (e) => {
+       setCredentials({ ...credentials, [e.target.name]: e.target.value });
+   };
 
-    return (
-        <div>
-            <h2>Iniciar Sesión</h2>
-            <form onSubmit={handleSubmit}>
-                <input type="email" placeholder="Correo" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
-                <button type="submit">Iniciar Sesión</button>
-            </form>
-            {error && <p style={{ color: 'red' }}>{error}</p>}
-        </div>
-    );
+   const handleSubmit = async (e) => {
+       e.preventDefault();
+       try {
+           const response = await authLogin(credentials);
+           if (response.token) {
+               authenticateUser(response);  // Autenticar usuario con datos obtenidos
+               localStorage.setItem('token', response.token);  // Guardar token en localStorage
+               navigate('/products');  // Redirigir a la página de productos
+           } else {
+               setError('Credenciales incorrectas');
+           }
+       } catch (err) {
+           setError('Error en el inicio de sesión');
+       }
+   };
+
+   return (
+       <form onSubmit={handleSubmit}>
+           <h2>Iniciar Sesión</h2>
+           <input
+               type="email"
+               name="email"
+               placeholder="Correo"
+               onChange={handleChange}
+               value={credentials.email}
+           />
+           <input
+               type="password"
+               name="password"
+               placeholder="Contraseña"
+               onChange={handleChange}
+               value={credentials.password}
+           />
+           <button type="submit">Ingresar</button>
+           {error && <p>{error}</p>}
+       </form>
+   );
 };
 
 export default Login;

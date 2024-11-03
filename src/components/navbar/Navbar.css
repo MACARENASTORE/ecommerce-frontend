@@ -1,28 +1,39 @@
-/* src/components/Navbar.css */
-nav {
+/* src/components/navbar/Navbar.css */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
     background-color: #333;
-    color: white;
-    padding: 1rem;
+    color: #fff;
 }
 
-ul {
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #fff;
+    text-decoration: none;
+}
+
+.nav-links {
     list-style: none;
     display: flex;
     gap: 1rem;
 }
 
-li {
-    display: inline;
-}
-
-a {
-    color: white;
+.nav-links a,
+.logout-button {
+    color: #fff;
     text-decoration: none;
-}
-
-button {
-    background-color: transparent;
-    color: white;
+    font-size: 1rem;
+    background: none;
     border: none;
     cursor: pointer;
+}
+
+.nav-links a:hover,
+.logout-button:hover {
+    color: #ffcc00;
+    text-decoration: underline;
 }
