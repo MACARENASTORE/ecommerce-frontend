@@ -2,12 +2,14 @@
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login as authLogin } from '../../services/authService';
-import AuthContext from '../../context/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 
 const Login = () => {
+   
+
    const [credentials, setCredentials] = useState({ email: '', password: '' });
    const [error, setError] = useState('');
-   const { authenticateUser } = useContext(AuthContext);  // Llamar a authenticateUser
+   const { authenticateUser } = useContext(AuthContext);  // Llamar a authenticateUser del contexto
    const navigate = useNavigate();
 
    const handleChange = (e) => {
@@ -15,20 +17,22 @@ const Login = () => {
    };
 
    const handleSubmit = async (e) => {
-       e.preventDefault();
-       try {
-           const response = await authLogin(credentials);
-           if (response.token) {
-               authenticateUser(response);  // Autenticar usuario con datos obtenidos
-               localStorage.setItem('token', response.token);  // Guardar token en localStorage
-               navigate('/products');  // Redirigir a la página de productos
-           } else {
-               setError('Credenciales incorrectas');
-           }
-       } catch (err) {
-           setError('Error en el inicio de sesión');
-       }
-   };
+    e.preventDefault();
+    try {
+        const response = await authLogin(credentials);
+        if (response.token) {
+            authenticateUser(response);
+            localStorage.setItem('token', response.token);
+            navigate('/products');
+        } else {
+            setError('Credenciales incorrectas');
+            console.error("Error en la respuesta del servidor:", response);
+        }
+    } catch (err) {
+        setError('Error en el inicio de sesión');
+        console.error("Error en el inicio de sesión:", err);
+    }
+};
 
    return (
        <form onSubmit={handleSubmit}>
