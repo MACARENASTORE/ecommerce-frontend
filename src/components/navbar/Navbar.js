@@ -1,6 +1,7 @@
+// src/components/navbar/Navbar.js
 import React, { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AuthContext } from '../../context/AuthContext';  // Importación correcta
+import { AuthContext } from '../../context/AuthContext';
 import './Navbar.css';
 
 const Navbar = () => {
@@ -50,4 +51,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-
