@@ -1,0 +1,29 @@
+/* src/pages/Categories.css */
+.categories {
+    padding: 2rem;
+    text-align: center;
+}
+
+.categories h1 {
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.categories ul {
+    list-style: none;
+    padding: 0;
+}
+
+.categories li {
+    margin: 1rem 0;
+}
+
+.categories a {
+    color: #ff6b6b;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.categories a:hover {
+    color: #ff4d4d;
+}

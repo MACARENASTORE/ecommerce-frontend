@@ -1,0 +1,32 @@
+/* src/components/ProductCarousel.css */
+.product-carousel {
+    text-align: center;
+    padding: 2rem;
+}
+
+.carousel-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 1rem;
+    padding: 1rem 0;
+}
+
+.carousel-item {
+    min-width: 200px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    padding: 1rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-item img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+}
+
+.carousel-item h3 {
+    font-size: 1.2rem;
+    margin: 0.5rem 0;
+}

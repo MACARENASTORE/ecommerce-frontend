@@ -1,4 +1,4 @@
-// src/services/productService.js
+import axios from 'axios';
 import { API_BASE_URL } from '../utils/constants';
 
 // Obtener todos los productos
@@ -16,7 +16,6 @@ export const fetchProductById = async (id) => {
 };
 
 // Crear un nuevo producto (solo para admin)
-// Crear un nuevo producto (con FormData)
 export const createProduct = async (productData) => {
     const response = await fetch(`${API_BASE_URL}/products`, {
         method: 'POST',
@@ -29,9 +28,7 @@ export const createProduct = async (productData) => {
     return response.json();
 };
 
-
 // Actualizar un producto existente (solo para admin)
-// Actualizar un producto existente (con FormData)
 export const updateProduct = async (id, productData) => {
     const response = await fetch(`${API_BASE_URL}/products/${id}`, {
         method: 'PUT',
@@ -54,4 +51,10 @@ export const deleteProduct = async (id) => {
     });
     if (!response.ok) throw new Error('Error al eliminar el producto');
     return response.json();
+};
+
+// Obtener productos destacados
+export const fetchFeaturedProducts = async () => {
+    const response = await axios.get(`${API_BASE_URL}/products/featured`);
+    return response.data;
 };

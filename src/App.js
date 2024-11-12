@@ -1,3 +1,4 @@
+// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
@@ -9,13 +10,14 @@ import Profile from './pages/Profile';
 import Login from './components/Auth/Login';
 import Register from './components/Auth/Register';
 import Navbar from './components/navbar/Navbar';
-import PrivateRoute from './components/PrivateRoute';  // Componente para rutas privadas
-import AdminDashboard from './pages/AdminDashboard';  // Página principal del panel de administración
-import ManageProducts from './pages/ManageProducts';  // Manejo de productos en el panel admin
-import ManageSuppliers from './pages/ManageSuppliers'; // Manejo de proveedores
-import ManageInvoices from './pages/ManageInvoices'; // Manejo de facturas
-import ManageUsers from './pages/ManageUsers'; // Manejo de usuarios
-import { AuthProvider } from './context/AuthContext';  // Importa AuthProvider para envolver las rutas
+import PrivateRoute from './components/PrivateRoute';
+import AdminDashboard from './pages/AdminDashboard';
+import ManageProducts from './pages/ManageProducts';
+import ManageSuppliers from './pages/ManageSuppliers';
+import ManageInvoices from './pages/ManageInvoices';
+import ManageUsers from './pages/ManageUsers';
+import Categories from './pages/Categories';
+import { AuthProvider } from './context/AuthContext';
 
 function App() {
     return (
@@ -26,6 +28,7 @@ function App() {
                     {/* Rutas públicas */}
                     <Route path="/" element={<Home />} />
                     <Route path="/products" element={<Products />} />
+                    <Route path="/categories" element={<Categories />} />
                     <Route path="/cart" element={<Cart />} />
                     <Route path="/invoices" element={<Invoices />} />
                     <Route path="/orders" element={<Orders />} />
