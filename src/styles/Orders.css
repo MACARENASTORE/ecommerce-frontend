@@ -1,0 +1,11 @@
+/* src/styles/Orders.css */
+.orders-container {
+    padding: 20px;
+}
+
+.order-item {
+    margin-bottom: 15px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

@@ -2,7 +2,9 @@
 import React, { useState, useEffect } from 'react';
 import { fetchSuppliers } from '../services/supplierService';
 import { fetchProducts } from '../services/productService';
-import { fetchInvoices, createInvoice } from '../services/invoiceService';
+import { fetchInvoices, createInvoice, fetchInvoiceById } from '../services/invoiceService';
+import InvoiceModal from '../components/Invoice/InvoiceModal';
+import '../styles/ManageInvoices.css';
 
 const ManageInvoices = () => {
     const [suppliers, setSuppliers] = useState([]);
@@ -10,8 +12,10 @@ const ManageInvoices = () => {
     const [invoiceProducts, setInvoiceProducts] = useState([]);
     const [selectedSupplier, setSelectedSupplier] = useState('');
     const [totalAmount, setTotalAmount] = useState(0);
-    const [invoiceNumber, setInvoiceNumber] = useState(''); // Nuevo estado para número de factura
+    const [invoiceNumber, setInvoiceNumber] = useState('');
     const [invoices, setInvoices] = useState([]);
+    const [selectedInvoice, setSelectedInvoice] = useState(null);
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     useEffect(() => {
         const loadSuppliersAndProducts = async () => {
@@ -55,7 +59,7 @@ const ManageInvoices = () => {
                 price: item.price,
             })),
             totalAmount,
-            invoiceNumber,  // Enviar número de factura si se proporciona
+            invoiceNumber,
         };
         await createInvoice(newInvoice);
         setSelectedSupplier('');
@@ -64,11 +68,22 @@ const ManageInvoices = () => {
         setInvoiceNumber('');
     };
 
+    const handleOpenInvoice = async (invoiceId) => {
+        const invoiceData = await fetchInvoiceById(invoiceId);
+        setSelectedInvoice(invoiceData);
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+        setSelectedInvoice(null);
+    };
+
     return (
-        <div>
+        <div className="invoices-container">
             <h1>Gestionar Facturas</h1>
 
-            <div>
+            <div className="select-container">
                 <label>Seleccionar Proveedor:</label>
                 <select value={selectedSupplier} onChange={(e) => setSelectedSupplier(e.target.value)}>
                     <option value="">Seleccione un proveedor</option>
@@ -78,7 +93,7 @@ const ManageInvoices = () => {
                 </select>
             </div>
 
-            <div>
+            <div className="select-container">
                 <label>Número de Factura (opcional):</label>
                 <input
                     type="text"
@@ -89,7 +104,7 @@ const ManageInvoices = () => {
 
             <h2>Productos en la Factura</h2>
             {invoiceProducts.map((product, index) => (
-                <div key={index}>
+                <div key={index} className="invoice-item">
                     <select
                         value={product.productId}
                         onChange={(e) => handleProductChange(index, 'productId', e.target.value)}
@@ -113,21 +128,29 @@ const ManageInvoices = () => {
                     />
                 </div>
             ))}
-            <button onClick={addProductToInvoice}>Añadir Producto</button>
+            <button className="button" onClick={addProductToInvoice}>Añadir Producto</button>
 
-            <h3>Total: ${totalAmount}</h3>
-            <button onClick={handleCreateInvoice}>Crear Factura</button>
+            <h3 className="total-amount">Total: ${totalAmount}</h3>
+            <button className="button" onClick={handleCreateInvoice}>Crear Factura</button>
 
             <h2>Facturas Creadas</h2>
-            <ul>
+            <ul className="invoices-list">
                 {invoices.map(invoice => (
-                    <li key={invoice._id}>
+                    <li key={invoice._id} className="invoice-item">
                         <strong>Número de Factura:</strong> {invoice.invoiceNumber}, 
                         <strong> Proveedor:</strong> {invoice.supplierId.name}, 
                         <strong> Total:</strong> ${invoice.totalAmount}
+                        <button className="button" onClick={() => handleOpenInvoice(invoice._id)}>Ver Detalles</button>
                     </li>
                 ))}
             </ul>
+
+            {isModalOpen && selectedInvoice && (
+                <InvoiceModal
+                    invoice={selectedInvoice}
+                    onClose={handleCloseModal}
+                />
+            )}
         </div>
     );
 };

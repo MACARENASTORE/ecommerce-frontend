@@ -1,0 +1,67 @@
+/* src/styles/Checkout.css */
+.checkout-container {
+    padding: 20px;
+}
+
+.checkout-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.checkout-item {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 10px 0;
+}
+
+.checkout-item-image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    margin-right: 20px;
+}
+
+.checkout-summary {
+    margin-top: 20px;
+    text-align: right;
+}
+
+.place-order-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.place-order-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+.shipping-form {
+    margin-top: 20px;
+}
+
+.shipping-form div {
+    margin-bottom: 10px;
+}
+
+.shipping-form label {
+    display: block;
+    font-weight: bold;
+}
+
+.shipping-form input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+.payment-method label {
+    display: block;
+    margin: 5px 0;
+}

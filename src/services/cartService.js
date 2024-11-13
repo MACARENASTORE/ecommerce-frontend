@@ -1,36 +1,46 @@
 // src/services/cartService.js
-import { API_BASE_URL } from '../utils/constants';
+import api from './axiosConfig';
 
-// Función para agregar un producto al carrito
-export const addToCart = async (productId, quantity = 1) => {
-    const response = await fetch(`${API_BASE_URL}/cart`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ productId, quantity })
-    });
-
-    if (!response.ok) {
-        throw new Error('Error al agregar al carrito');
+// Obtener el carrito del usuario
+export const getCart = async () => {
+    try {
+        const response = await api.get('/cart');
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener el carrito:', error);
+        throw error;
     }
-
-    return response.json();
 };
 
-// Función para obtener el carrito del usuario
-export const getCart = async () => {
-    const response = await fetch(`${API_BASE_URL}/cart`, {
-        method: 'GET',
-        headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-        }
-    });
-
-    if (!response.ok) {
-        throw new Error('Error al obtener el carrito');
+// Actualizar la cantidad de un producto en el carrito
+export const updateCartItem = async (productId, quantity) => {
+    try {
+        const response = await api.put(`/cart/${productId}`, { quantity });
+        return response.data;
+    } catch (error) {
+        console.error('Error al actualizar la cantidad del producto en el carrito:', error);
+        throw error;
     }
+};
 
-    return response.json();
+// Eliminar un producto del carrito
+export const removeCartItem = async (productId) => {
+    try {
+        const response = await api.delete(`/cart/${productId}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error al eliminar el producto del carrito:', error);
+        throw error;
+    }
+};
+
+// Agregar un producto al carrito
+export const addToCart = async (productId, quantity = 1) => {
+    try {
+        const response = await api.post('/cart', { productId, quantity });
+        return response.data;
+    } catch (error) {
+        console.error('Error al agregar producto al carrito:', error);
+        throw error;
+    }
 };

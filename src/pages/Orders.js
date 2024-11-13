@@ -1,6 +1,6 @@
-// src/pages/Orders.js
 import React, { useEffect, useState } from 'react';
 import { fetchOrders } from '../services/orderService';
+import '../styles/Orders.css';
 
 const Orders = () => {
     const [orders, setOrders] = useState([]);
@@ -18,11 +18,11 @@ const Orders = () => {
     }, []);
 
     return (
-        <div>
+        <div className="orders-container">
             <h2>Lista de Órdenes</h2>
             <ul>
                 {orders.map(order => (
-                    <li key={order._id}>
+                    <li key={order._id} className="order-item">
                         Orden N°: {order._id} - Total: ${order.totalAmount.toFixed(2)}
                     </li>
                 ))}

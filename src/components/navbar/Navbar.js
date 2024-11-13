@@ -8,7 +8,7 @@ const Navbar = () => {
     const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
-    const [adminMenuOpen, setAdminMenuOpen] = useState(false); // Estado para el despliegue de administración
+    const [adminMenuOpen, setAdminMenuOpen] = useState(false);
 
     const handleLogout = () => {
         logout();
@@ -24,7 +24,11 @@ const Navbar = () => {
     };
 
     const toggleAdminMenu = () => {
-        setAdminMenuOpen(!adminMenuOpen); // Alterna el estado del menú
+        setAdminMenuOpen(!adminMenuOpen);
+    };
+
+    const closeAdminMenu = () => {
+        setAdminMenuOpen(false); // Cierra el menú cuando se selecciona un enlace
     };
 
     return (
@@ -56,7 +60,7 @@ const Navbar = () => {
                                     Administración
                                 </button>
                                 {adminMenuOpen && (
-                                    <ul className="admin-dropdown">
+                                    <ul className="admin-dropdown" onClick={closeAdminMenu}>
                                         <li><Link to="/admin">Panel de Administración</Link></li>
                                         <li><Link to="/admin/products">Gestionar Productos</Link></li>
                                         <li><Link to="/admin/suppliers">Gestionar Proveedores</Link></li>

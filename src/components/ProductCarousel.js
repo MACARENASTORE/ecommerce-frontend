@@ -20,7 +20,7 @@ const ProductCarousel = () => {
             <div className="carousel-container">
                 {products.map((product) => (
                     <div key={product._id} className="carousel-item">
-                        <img src={product.image[0]} alt={product.name} />
+                        <img src={product.image[0]} alt={product.name} className="carousel-image" />
                         <h3>{product.name}</h3>
                         <p>${product.price}</p>
                     </div>
@@ -31,4 +31,3 @@ const ProductCarousel = () => {
 };
 
 export default ProductCarousel;
-

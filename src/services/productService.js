@@ -58,3 +58,8 @@ export const fetchFeaturedProducts = async () => {
     const response = await axios.get(`${API_BASE_URL}/products/featured`);
     return response.data;
 };
+
+export const searchProducts = async (query) => {
+    const response = await axios.get(`${API_BASE_URL}/products/search?query=${query}`);
+    return response.data;
+};

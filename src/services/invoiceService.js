@@ -1,24 +1,18 @@
-import axios from 'axios';
-import { API_BASE_URL } from '../utils/constants';
 
-// Obtener todas las facturas
+import api from './axiosConfig';
+
 export const fetchInvoices = async () => {
-    const token = localStorage.getItem('token');
-    const response = await axios.get(`${API_BASE_URL}/invoices`, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    const response = await api.get('/invoices');
     return response.data;
 };
 
-// Crear una nueva factura
 export const createInvoice = async (invoiceData) => {
-    const token = localStorage.getItem('token');
-    const response = await axios.post(`${API_BASE_URL}/invoices`, invoiceData, {
-        headers: {
-            Authorization: `Bearer ${token}`,
-        },
-    });
+    const response = await api.post('/invoices', invoiceData);
     return response.data;
 };
+
+export const fetchInvoiceById = async (id) => {
+    const response = await api.get(`/invoices/${id}`);
+    return response.data;
+};
+

@@ -7,15 +7,30 @@ import '../styles/Home.css';
 const Home = () => {
     return (
         <div className="home">
-            <h1>Bienvenido a MacarenaStore</h1>
-            <p>Explora nuestros productos y encuentra lo que necesitas.</p>
-
-            <div className="category-links">
-                <Link to="/products" className="button">Ver Todos los Productos</Link>
-                <Link to="/categories" className="button">Explorar Categorías</Link>
+            <div className="home-header">
+                <h1>Bienvenido a MacarenaStore</h1>
+                <p>Encuentra los mejores productos en nuestra tienda.</p>
             </div>
 
-            <ProductCarousel /> {/* Carrusel de productos destacados */}
+            <div className="category-links">
+                <Link to="/products" className="button primary-button">Ver Todos los Productos</Link>
+                <Link to="/categories" className="button secondary-button">Explorar Categorías</Link>
+            </div>
+
+            <div className="home-featured">
+                <ProductCarousel />
+            </div>
+
+            <div className="home-categories">
+                <h2>Categorías Destacadas</h2>
+                <div className="category-cards">
+                    {/* Añade enlaces a categorías aquí */}
+                    <Link to="/category/electronics" className="category-card">Electrónica</Link>
+                    <Link to="/category/fashion" className="category-card">Moda</Link>
+                    <Link to="/category/home" className="category-card">Hogar</Link>
+                    <Link to="/category/beauty" className="category-card">Belleza</Link>
+                </div>
+            </div>
         </div>
     );
 };

@@ -66,3 +66,21 @@ th {
     object-fit: cover;
     border-radius: 4px;
 }
+
+
+.message {
+    padding: 10px;
+    margin: 15px 0;
+    text-align: center;
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+}
+
+.product-thumbnail {
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+}

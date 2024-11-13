@@ -111,6 +111,7 @@
 
 .admin-dropdown li {
     margin: 0;
+    padding: 0;
 }
 
 .admin-dropdown a {
@@ -118,8 +119,10 @@
     text-decoration: none;
     display: block;
     padding: 0.5rem 1rem;
+    transition: background 0.3s;
 }
 
 .admin-dropdown a:hover {
     background-color: #555;
+    border-radius: 4px;
 }

@@ -12,6 +12,7 @@ const ProductManager = () => {
         name: '', description: '', price: '', stock: '', category: '', image: null, isFeatured: false, ean: ''
     });
     const [editingProduct, setEditingProduct] = useState(null);
+    const [message, setMessage] = useState('');
 
     useEffect(() => {
         const loadData = async () => {
@@ -27,18 +28,22 @@ const ProductManager = () => {
         loadData();
     }, []);
 
-    // Agregar nueva categoría
+    const showMessage = (msg) => {
+        setMessage(msg);
+        setTimeout(() => setMessage(''), 3000);
+    };
+
     const handleCategorySubmit = async () => {
         try {
             const createdCategory = await createCategory(newCategory);
             setCategories([...categories, createdCategory]);
             setNewCategory({ name: '', description: '' });
+            showMessage("Categoría creada con éxito");
         } catch (error) {
             console.error("Error al crear categoría:", error);
         }
     };
 
-    // Agregar o editar producto
     const handleProductSubmit = async () => {
         const formData = new FormData();
         formData.append('name', newProduct.name);
@@ -55,9 +60,11 @@ const ProductManager = () => {
                 const updatedProduct = await updateProduct(editingProduct._id, formData);
                 setProducts(products.map(prod => prod._id === editingProduct._id ? updatedProduct : prod));
                 setEditingProduct(null);
+                showMessage("Producto actualizado con éxito");
             } else {
                 const createdProduct = await createProduct(formData);
                 setProducts([...products, createdProduct]);
+                showMessage("Producto creado con éxito");
             }
             setNewProduct({ name: '', description: '', price: '', stock: '', category: '', image: null, isFeatured: false, ean: '' });
         } catch (error) {
@@ -74,14 +81,28 @@ const ProductManager = () => {
         try {
             await deleteProduct(id);
             setProducts(products.filter(prod => prod._id !== id));
+            showMessage("Producto eliminado con éxito");
         } catch (error) {
             console.error("Error al eliminar el producto:", error);
+        }
+    };
+
+    const handleImageChange = async (productId, file) => {
+        const formData = new FormData();
+        formData.append('image', file);
+        try {
+            const updatedProduct = await updateProduct(productId, formData);
+            setProducts(products.map(prod => prod._id === productId ? updatedProduct : prod));
+            showMessage("Imagen actualizada con éxito");
+        } catch (error) {
+            console.error("Error al actualizar la imagen:", error);
         }
     };
 
     return (
         <div className="product-manager-container">
             <h1>Gestión de Productos</h1>
+            {message && <div className="message">{message}</div>}
 
             <div className="form-section">
                 <h2>Agregar Categoría</h2>
@@ -172,7 +193,22 @@ const ProductManager = () => {
                 <tbody>
                     {products.map((product) => (
                         <tr key={product._id}>
-                            <td>{product.image && product.image[0] ? <img src={product.image[0]} alt={product.name} className="product-thumbnail" /> : 'Sin imagen'}</td>
+                            <td>
+                                {product.image && product.image[0] ? (
+                                    <img
+                                        src={product.image[0]}
+                                        alt={product.name}
+                                        className="product-thumbnail"
+                                        onClick={() => document.getElementById(`image-upload-${product._id}`).click()}
+                                    />
+                                ) : 'Sin imagen'}
+                                <input
+                                    type="file"
+                                    id={`image-upload-${product._id}`}
+                                    style={{ display: 'none' }}
+                                    onChange={(e) => handleImageChange(product._id, e.target.files[0])}
+                                />
+                            </td>
                             <td>{product.name}</td>
                             <td>${product.price}</td>
                             <td>{product.stock}</td>

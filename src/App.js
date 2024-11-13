@@ -17,6 +17,8 @@ import ManageSuppliers from './pages/ManageSuppliers';
 import ManageInvoices from './pages/ManageInvoices';
 import ManageUsers from './pages/ManageUsers';
 import Categories from './pages/Categories';
+import SearchResults from './pages/SearchResults';
+import Checkout from './pages/Checkout';
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -35,6 +37,8 @@ function App() {
                     <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/search" element={<SearchResults />} />
+                    <Route path="/checkout" element={<Checkout />} />
                     
                     {/* Rutas del panel de administración, protegidas */}
                     <Route 
