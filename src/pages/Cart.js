@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom'; // Replace useHistory with useNa
 import { getCart, updateCartItem, removeCartItem } from '../services/cartService';
 import '../styles/Cart.css';
 
+
 const Cart = () => {
     const [cartItems, setCartItems] = useState([]);
     const navigate = useNavigate(); // Initialize useNavigate
