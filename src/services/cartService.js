@@ -1,4 +1,3 @@
-// src/services/cartService.js
 import api from './axiosConfig';
 
 /**

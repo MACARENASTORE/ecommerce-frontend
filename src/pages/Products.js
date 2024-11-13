@@ -22,13 +22,14 @@ const Products = () => {
 
     const handleAddToCart = async (productId, quantity) => {
         try {
-            await addToCart(productId, quantity);
+            await addToCart({ productId, quantity }); // Cambia para enviar como objeto
             alert('Producto agregado al carrito');
         } catch (error) {
             alert('No se pudo agregar el producto al carrito. Inténtalo de nuevo.');
             console.error("Error en handleAddToCart:", error);
         }
     };
+    
 
     const handleQuantityChange = (productId, value) => {
         setQuantities({ ...quantities, [productId]: Math.max(1, value) });

@@ -29,3 +29,33 @@ export const createOrder = async (orderData) => {
         throw error;
     }
 };
+
+/**
+ * Obtiene todas las órdenes del sistema.
+ * @returns {Promise<Array>} Lista de órdenes.
+ */
+export const fetchAllOrders = async () => {
+    try {
+        const response = await api.get('/orders');
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener órdenes:', error);
+        throw error;
+    }
+};
+
+/**
+ * Actualiza el estado de una orden específica.
+ * @param {string} orderId - ID de la orden.
+ * @param {string} status - Nuevo estado de la orden.
+ * @returns {Promise<Object>} Orden actualizada.
+ */
+export const updateOrderStatus = async (orderId, status) => {
+    try {
+        const response = await api.put(`/orders/${orderId}/status`, { status });
+        return response.data;
+    } catch (error) {
+        console.error('Error al actualizar el estado de la orden:', error);
+        throw error;
+    }
+};
