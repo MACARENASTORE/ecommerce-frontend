@@ -1,45 +1,46 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { jwtDecode } from 'jwt-decode';
+import { getUserProfile } from '../services/authService';
 
 export const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
+    const [loading, setLoading] = useState(true);
 
-    useEffect(() => {
-        const savedUser = JSON.parse(localStorage.getItem('user'));
-        const token = localStorage.getItem('token');
-
+    const authenticateUser = async (response) => {
+        const token = response.token;
         if (token) {
-            const decodedToken = jwtDecode(token);
-            if (decodedToken.exp * 1000 < Date.now()) {
-                // El token ha expirado
-                localStorage.removeItem('user');
-                localStorage.removeItem('token');
-                setUser(null);
-            } else {
-                setUser(savedUser);
+            localStorage.setItem('token', token);
+            try {
+                const profile = await getUserProfile();
+                setUser(profile);
+            } catch (error) {
+                console.error("Error al obtener el perfil del usuario:", error);
             }
         }
-    }, []);
-
-    const authenticateUser = (userData) => {
-        setUser(userData);
-        localStorage.setItem('user', JSON.stringify(userData));
-        localStorage.setItem('token', userData.token);
     };
 
     const logout = () => {
-        setUser(null);
-        localStorage.removeItem('user');
         localStorage.removeItem('token');
+        setUser(null);
     };
 
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        if (token) {
+            getUserProfile()
+                .then(profile => setUser(profile))
+                .catch(error => {
+                    console.error("Error al cargar el perfil:", error);
+                    localStorage.removeItem('token');
+                });
+        }
+        setLoading(false);
+    }, []);
+
     return (
-        <AuthContext.Provider value={{ user, authenticateUser, logout }}>
-            {children}
+        <AuthContext.Provider value={{ user, authenticateUser, logout, loading }}>
+            {!loading && children} {/* Solo renderiza cuando loading es false */}
         </AuthContext.Provider>
     );
 };
-
-export default AuthContext;

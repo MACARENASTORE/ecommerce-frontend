@@ -126,3 +126,25 @@
     background-color: #555;
     border-radius: 4px;
 }
+
+.welcome-message {
+    font-weight: bold;
+    margin-right: 1rem;
+    color: #ffffff;
+}
+
+/* src/components/navbar/Navbar.css */
+.whatsapp-button {
+    display: inline-block;
+    margin-left: 15px;
+    padding: 10px 15px;
+    background-color: #25d366;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.whatsapp-button:hover {
+    background-color: #1ebe57;
+}

@@ -1,0 +1,46 @@
+.profile-container {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    text-align: center;
+}
+
+.profile-info {
+    margin: 20px 0;
+}
+
+.profile-info input {
+    width: 100%;
+    padding: 8px;
+    margin: 5px 0;
+    box-sizing: border-box;
+}
+
+button {
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+}
+
+.logout-button {
+    background-color: #dc3545;
+}
+
+.orders-list {
+    margin-top: 20px;
+}
+
+.order-item {
+    margin: 10px 0;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.view-order-button {
+    background-color: #17a2b8;
+}

@@ -1,93 +1,92 @@
 // src/services/authService.js
-import axios from 'axios';
-import { API_BASE_URL } from '../utils/constants';
+import api from './axiosConfig';
 
-// Función de inicio de sesión
+/**
+ * Realiza una solicitud de inicio de sesión.
+ * @param {Object} credentials - Credenciales de inicio de sesión.
+ * @returns {Promise<Object>} Respuesta de autenticación.
+ */
 export const login = async (credentials) => {
-    const response = await fetch(`${API_BASE_URL}/auth/login`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(credentials),
-    });
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(data.message || 'Error en la autenticación');
+    try {
+        const response = await api.post('/auth/login', credentials);
+        return response.data;
+    } catch (error) {
+        console.error('Error en el servicio de autenticación:', error);
+        throw error;
     }
-
-    return data; // Retorna el objeto completo para obtener el token y el perfil del usuario
 };
 
-// Función de registro de usuario
+/**
+ * Realiza una solicitud de registro de usuario.
+ * @param {Object} data - Datos de registro del usuario.
+ * @returns {Promise<Object>} Respuesta de autenticación.
+ */
 export const register = async (data) => {
-    const response = await fetch(`${API_BASE_URL}/auth/register`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-    });
-
-    const result = await response.json();
-
-    if (!response.ok) {
-        throw new Error(result.message || 'Error en el registro');
+    try {
+        const response = await api.post('/auth/register', data);
+        return response.data;
+    } catch (error) {
+        console.error('Error en el registro del usuario:', error);
+        throw error;
     }
-
-    return result;
 };
 
-// Función para obtener el perfil del usuario autenticado
-export const getUserProfile = async (token) => {
-    const response = await fetch(`${API_BASE_URL}/auth/profile`, {
-        headers: { Authorization: `Bearer ${token}` },
-    });
-
-    const data = await response.json();
-
-    if (!response.ok) {
-        throw new Error(data.message || 'Error al obtener el perfil');
+/**
+ * Obtiene el perfil del usuario autenticado.
+ * @param {string} token - Token de autenticación.
+ * @returns {Promise<Object>} Perfil del usuario.
+ */
+export const getUserProfile = async () => {
+    try {
+        const response = await api.get('/auth/profile');
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener el perfil del usuario:', error);
+        throw error;
     }
-
-    return data;
 };
 
-// Función para obtener todos los usuarios (para administración)
+/**
+ * Obtiene la lista de todos los usuarios (solo para administradores).
+ * @returns {Promise<Array>} Lista de usuarios.
+ */
 export const getAllUsers = async () => {
-    const token = localStorage.getItem('token'); // Obtener token del almacenamiento local
-    const response = await axios.get(`${API_BASE_URL}/auth/users`, {
-        headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (!response.status === 200) {
-        throw new Error('Error al obtener usuarios');
+    try {
+        const response = await api.get('/auth/users');
+        return response.data;
+    } catch (error) {
+        console.error('Error al obtener usuarios:', error);
+        throw error;
     }
-
-    return response.data;
 };
 
-// Función para actualizar un usuario (para administración)
+/**
+ * Actualiza un usuario específico (solo para administradores).
+ * @param {string} id - ID del usuario a actualizar.
+ * @param {Object} userData - Datos a actualizar.
+ * @returns {Promise<Object>} Usuario actualizado.
+ */
 export const updateUser = async (id, userData) => {
-    const token = localStorage.getItem('token'); // Obtener token del almacenamiento local
-    const response = await axios.put(`${API_BASE_URL}/auth/users/${id}`, userData, {
-        headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (!response.status === 200) {
-        throw new Error('Error al actualizar el usuario');
+    try {
+        const response = await api.put(`/auth/users/${id}`, userData);
+        return response.data;
+    } catch (error) {
+        console.error('Error al actualizar el usuario:', error);
+        throw error;
     }
-
-    return response.data;
 };
 
-// Función para eliminar un usuario (para administración)
+/**
+ * Elimina un usuario específico (solo para administradores).
+ * @param {string} id - ID del usuario a eliminar.
+ * @returns {Promise<Object>} Respuesta de la eliminación.
+ */
 export const deleteUser = async (id) => {
-    const token = localStorage.getItem('token'); // Obtener token del almacenamiento local
-    const response = await axios.delete(`${API_BASE_URL}/auth/users/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-    });
-
-    if (!response.status === 200) {
-        throw new Error('Error al eliminar el usuario');
+    try {
+        const response = await api.delete(`/auth/users/${id}`);
+        return response.data;
+    } catch (error) {
+        console.error('Error al eliminar el usuario:', error);
+        throw error;
     }
-
-    return response.data;
 };

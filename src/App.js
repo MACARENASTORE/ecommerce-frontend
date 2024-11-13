@@ -1,10 +1,8 @@
-// src/App.js
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Products from './pages/Products';
 import Cart from './pages/Cart';
-import Invoices from './pages/Invoices';
 import Orders from './pages/Orders';
 import Profile from './pages/Profile';
 import Login from './components/Auth/Login';
@@ -23,8 +21,8 @@ import { AuthProvider } from './context/AuthContext';
 
 function App() {
     return (
-        <AuthProvider>
-            <Router>
+        <Router> {/* Asegúrate de que Router está alrededor de AuthProvider */}
+            <AuthProvider>
                 <Navbar />
                 <Routes>
                     {/* Rutas públicas */}
@@ -32,7 +30,6 @@ function App() {
                     <Route path="/products" element={<Products />} />
                     <Route path="/categories" element={<Categories />} />
                     <Route path="/cart" element={<Cart />} />
-                    <Route path="/invoices" element={<Invoices />} />
                     <Route path="/orders" element={<Orders />} />
                     <Route path="/profile" element={<PrivateRoute><Profile /></PrivateRoute>} />
                     <Route path="/login" element={<Login />} />
@@ -62,8 +59,8 @@ function App() {
                         element={<PrivateRoute><ManageUsers /></PrivateRoute>} 
                     />
                 </Routes>
-            </Router>
-        </AuthProvider>
+            </AuthProvider>
+        </Router>
     );
 }
 

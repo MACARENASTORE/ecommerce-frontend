@@ -28,7 +28,7 @@ const Navbar = () => {
     };
 
     const closeAdminMenu = () => {
-        setAdminMenuOpen(false); // Cierra el menú cuando se selecciona un enlace
+        setAdminMenuOpen(false);
     };
 
     return (
@@ -74,6 +74,15 @@ const Navbar = () => {
                     </>
                 )}
             </ul>
+            {/* Botón de WhatsApp */}
+            <a
+                href="https://wa.me/3106469827" // Reemplaza con el número de teléfono
+                target="_blank"
+                rel="noopener noreferrer"
+                className="whatsapp-button"
+            >
+                Contactar en WhatsApp
+            </a>
         </nav>
     );
 };
