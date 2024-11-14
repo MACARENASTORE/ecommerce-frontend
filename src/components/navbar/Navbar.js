@@ -65,6 +65,7 @@ const Navbar = () => {
                                         <li><Link to="/admin/products">Gestionar Productos</Link></li>
                                         <li><Link to="/admin/suppliers">Gestionar Proveedores</Link></li>
                                         <li><Link to="/admin/invoices">Gestionar Facturas</Link></li>
+                                        <li><Link to="/admin/orders">Gestor de Órdenes</Link></li> {/* Nuevo elemento */}
                                         <li><Link to="/admin/users">Gestionar Usuarios</Link></li>
                                     </ul>
                                 )}
@@ -76,7 +77,7 @@ const Navbar = () => {
             </ul>
             {/* Botón de WhatsApp */}
             <a
-                href="https://wa.me/3106469827" // Reemplaza con el número de teléfono
+                href="https://wa.me/573106469827" // Reemplaza con el número de teléfono
                 target="_blank"
                 rel="noopener noreferrer"
                 className="whatsapp-button"

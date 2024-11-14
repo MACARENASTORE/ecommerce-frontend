@@ -1,8 +1,8 @@
-// src/components/Auth/Login.js
 import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { login as authLogin } from '../../services/authService';
 import { AuthContext } from '../../context/AuthContext';
+import '../../styles/AuthForm.css';
 
 const Login = () => {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -31,25 +31,29 @@ const Login = () => {
     };
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h2>Iniciar Sesión</h2>
-            <input
-                type="email"
-                name="email"
-                placeholder="Correo"
-                onChange={handleChange}
-                value={credentials.email}
-            />
-            <input
-                type="password"
-                name="password"
-                placeholder="Contraseña"
-                onChange={handleChange}
-                value={credentials.password}
-            />
-            <button type="submit">Ingresar</button>
-            {error && <p>{error}</p>}
-        </form>
+        <div className="auth-container">
+            <form onSubmit={handleSubmit} className="auth-form">
+                <h2>Iniciar Sesión</h2>
+                <input
+                    type="email"
+                    name="email"
+                    placeholder="Correo"
+                    onChange={handleChange}
+                    value={credentials.email}
+                    required
+                />
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Contraseña"
+                    onChange={handleChange}
+                    value={credentials.password}
+                    required
+                />
+                <button type="submit">Ingresar</button>
+                {error && <p>{error}</p>}
+            </form>
+        </div>
     );
 };
 

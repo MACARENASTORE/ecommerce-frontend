@@ -1,6 +1,7 @@
 // src/components/Auth/Register.js
 import React, { useState } from 'react';
 import axios from 'axios';
+import '../../styles/AuthForm.css';
 
 const Register = () => {
     const [username, setUsername] = useState('');
@@ -23,15 +24,33 @@ const Register = () => {
     };
 
     return (
-        <div>
-            <h2>Registro</h2>
-            <form onSubmit={handleSubmit}>
-                <input type="text" placeholder="Nombre de usuario" value={username} onChange={(e) => setUsername(e.target.value)} required />
-                <input type="email" placeholder="Correo" value={email} onChange={(e) => setEmail(e.target.value)} required />
-                <input type="password" placeholder="Contraseña" value={password} onChange={(e) => setPassword(e.target.value)} required />
+        <div className="auth-container">
+            <form onSubmit={handleSubmit} className="auth-form">
+                <h2>Registro</h2>
+                <input 
+                    type="text" 
+                    placeholder="Nombre de usuario" 
+                    value={username} 
+                    onChange={(e) => setUsername(e.target.value)} 
+                    required 
+                />
+                <input 
+                    type="email" 
+                    placeholder="Correo" 
+                    value={email} 
+                    onChange={(e) => setEmail(e.target.value)} 
+                    required 
+                />
+                <input 
+                    type="password" 
+                    placeholder="Contraseña" 
+                    value={password} 
+                    onChange={(e) => setPassword(e.target.value)} 
+                    required 
+                />
                 <button type="submit">Registrar</button>
+                {message && <p>{message}</p>}
             </form>
-            {message && <p>{message}</p>}
         </div>
     );
 };

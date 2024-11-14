@@ -17,6 +17,7 @@ import ManageUsers from './pages/ManageUsers';
 import Categories from './pages/Categories';
 import SearchResults from './pages/SearchResults';
 import Checkout from './pages/Checkout';
+import ManageOrders from './pages/ManageOrders'; 
 import { AuthProvider } from './context/AuthContext';
 
 function App() {
@@ -58,6 +59,7 @@ function App() {
                         path="/admin/users" 
                         element={<PrivateRoute><ManageUsers /></PrivateRoute>} 
                     />
+                     <Route path="/admin/orders" element={<PrivateRoute><ManageOrders /></PrivateRoute>} /> {/* Añade esta ruta */}
                 </Routes>
             </AuthProvider>
         </Router>

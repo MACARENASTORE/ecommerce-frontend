@@ -22,3 +22,49 @@
 .order-item select {
     margin-left: 10px;
 }
+/* src/styles/ManageOrders.css */
+.manage-orders {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.manage-orders h2 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.order-item {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ddd;
+}
+
+.order-item p {
+    margin: 5px 0;
+}
+
+.order-item select {
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+}
+
+.order-item button {
+    margin-top: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.order-item button:hover {
+    background-color: #0056b3;
+}
