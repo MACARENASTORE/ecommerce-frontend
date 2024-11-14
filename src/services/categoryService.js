@@ -42,3 +42,10 @@ export const deleteCategory = async (id) => {
         },
     });
 };
+
+// Obtener una categoría por ID y sus productos
+export const fetchCategoryWithProducts = async (categoryId) => {
+    const response = await fetch(`${API_BASE_URL}/categories/${categoryId}`);
+    if (!response.ok) throw new Error('Error al obtener la categoría');
+    return response.json();
+};

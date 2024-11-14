@@ -1,65 +1,95 @@
+// src/services/productService.js
 import axios from 'axios';
 import { API_BASE_URL } from '../utils/constants';
 
+// Configuración de instancia de Axios
+const axiosInstance = axios.create({
+    baseURL: API_BASE_URL,
+    headers: {
+        'Authorization': `Bearer ${localStorage.getItem('token')}`,
+    },
+});
+
+// Manejar errores
+const handleError = (error) => {
+    console.error('API Error:', error);
+    throw new Error(error.response?.data?.message || 'Error en la solicitud');
+};
+
 // Obtener todos los productos
 export const fetchProducts = async () => {
-    const response = await fetch(`${API_BASE_URL}/products`);
-    if (!response.ok) throw new Error('Error al obtener los productos');
-    return response.json();
+    try {
+        const response = await axiosInstance.get('/products');
+        return response.data;
+    } catch (error) {
+        handleError(error);
+    }
 };
 
 // Obtener un producto por ID
 export const fetchProductById = async (id) => {
-    const response = await fetch(`${API_BASE_URL}/products/${id}`);
-    if (!response.ok) throw new Error('Error al obtener el producto');
-    return response.json();
+    try {
+        const response = await axiosInstance.get(`/products/${id}`);
+        return response.data;
+    } catch (error) {
+        handleError(error);
+    }
 };
 
 // Crear un nuevo producto (solo para admin)
 export const createProduct = async (productData) => {
-    const response = await fetch(`${API_BASE_URL}/products`, {
-        method: 'POST',
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Token de autenticación
-        },
-        body: productData, // Enviar el FormData en el cuerpo
-    });
-    if (!response.ok) throw new Error('Error al crear el producto');
-    return response.json();
+    try {
+        const response = await axiosInstance.post('/products', productData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Para el envío de archivos con FormData
+            },
+        });
+        return response.data;
+    } catch (error) {
+        handleError(error);
+    }
 };
 
 // Actualizar un producto existente (solo para admin)
 export const updateProduct = async (id, productData) => {
-    const response = await fetch(`${API_BASE_URL}/products/${id}`, {
-        method: 'PUT',
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Token de autenticación
-        },
-        body: productData,
-    });
-    if (!response.ok) throw new Error('Error al actualizar el producto');
-    return response.json();
+    try {
+        const response = await axiosInstance.put(`/products/${id}`, productData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // Para el envío de archivos con FormData
+            },
+        });
+        return response.data;
+    } catch (error) {
+        handleError(error);
+    }
 };
 
 // Eliminar un producto (solo para admin)
 export const deleteProduct = async (id) => {
-    const response = await fetch(`${API_BASE_URL}/products/${id}`, {
-        method: 'DELETE',
-        headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`, // Token de autenticación
-        },
-    });
-    if (!response.ok) throw new Error('Error al eliminar el producto');
-    return response.json();
+    try {
+        const response = await axiosInstance.delete(`/products/${id}`);
+        return response.data;
+    } catch (error) {
+        handleError(error);
+    }
 };
 
 // Obtener productos destacados
 export const fetchFeaturedProducts = async () => {
-    const response = await axios.get(`${API_BASE_URL}/products/featured`);
-    return response.data;
+    try {
+        const response = await axiosInstance.get('/products/featured');
+        return response.data;
+    } catch (error) {
+        handleError(error);
+    }
 };
 
+// Buscar productos por una consulta
 export const searchProducts = async (query) => {
-    const response = await axios.get(`${API_BASE_URL}/products/search?query=${query}`);
-    return response.data;
+    try {
+        const response = await axiosInstance.get(`/products/search?query=${query}`);
+        return response.data;
+    } catch (error) {
+        handleError(error);
+    }
 };
