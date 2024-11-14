@@ -148,3 +148,63 @@
 .whatsapp-button:hover {
     background-color: #1ebe57;
 }
+/* src/styles/Navbar.css */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 30px;
+    background-color: #333;
+    color: #fff;
+}
+
+.nav-links, .admin-dropdown, .account-dropdown {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.nav-links > li, .admin-dropdown > li, .account-dropdown > li {
+    margin: 10px;
+}
+
+.admin-dropdown, .account-dropdown {
+    position: absolute;
+    background-color: #444;
+    padding: 10px;
+    border-radius: 5px;
+    display: flex;
+    flex-direction: column;
+}
+
+.account-button, .admin-button {
+    background: none;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+}
+
+.logout-button {
+    background: #f00;
+    color: #fff;
+    border: none;
+    padding: 5px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+.whatsapp-button {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #25d366;
+    color: #fff;
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+

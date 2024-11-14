@@ -8,6 +8,7 @@ const Navbar = () => {
     const { user, logout } = useContext(AuthContext);
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
+    const [accountMenuOpen, setAccountMenuOpen] = useState(false);
     const [adminMenuOpen, setAdminMenuOpen] = useState(false);
 
     const handleLogout = () => {
@@ -23,11 +24,16 @@ const Navbar = () => {
         }
     };
 
+    const toggleAccountMenu = () => {
+        setAccountMenuOpen(!accountMenuOpen);
+    };
+
     const toggleAdminMenu = () => {
         setAdminMenuOpen(!adminMenuOpen);
     };
 
-    const closeAdminMenu = () => {
+    const closeMenus = () => {
+        setAccountMenuOpen(false);
         setAdminMenuOpen(false);
     };
 
@@ -53,28 +59,43 @@ const Navbar = () => {
                     <>
                         <li><Link to="/products">Productos</Link></li>
                         <li><Link to="/cart">Carrito</Link></li>
-                        <li><Link to="/profile">Perfil</Link></li>
+
+                        {/* Menú de Cuenta del usuario */}
+                        <li className="account-menu">
+                            <button onClick={toggleAccountMenu} className="account-button">
+                                {`Hola, ${user.username}`} {/* Saludo personalizado */}
+                            </button>
+                            {accountMenuOpen && (
+                                <ul className="account-dropdown" onClick={closeMenus}>
+                                    <li><Link to="/profile">Perfil</Link></li>
+                                    <li><Link to="/orders">Mis Órdenes</Link></li>
+                                    <li><button onClick={handleLogout} className="logout-button">Cerrar sesión</button></li>
+                                </ul>
+                            )}
+                        </li>
+
+                        {/* Menú de Administración solo para el rol de admin */}
                         {user.role === 'admin' && (
                             <li className="admin-menu">
                                 <button onClick={toggleAdminMenu} className="admin-button">
                                     Administración
                                 </button>
                                 {adminMenuOpen && (
-                                    <ul className="admin-dropdown" onClick={closeAdminMenu}>
+                                    <ul className="admin-dropdown" onClick={closeMenus}>
                                         <li><Link to="/admin">Panel de Administración</Link></li>
                                         <li><Link to="/admin/products">Gestionar Productos</Link></li>
                                         <li><Link to="/admin/suppliers">Gestionar Proveedores</Link></li>
                                         <li><Link to="/admin/invoices">Gestionar Facturas</Link></li>
-                                        <li><Link to="/admin/orders">Gestor de Órdenes</Link></li> {/* Nuevo elemento */}
+                                        <li><Link to="/admin/orders">Gestor de Órdenes</Link></li>
                                         <li><Link to="/admin/users">Gestionar Usuarios</Link></li>
                                     </ul>
                                 )}
                             </li>
                         )}
-                        <li><button onClick={handleLogout} className="logout-button">Cerrar sesión</button></li>
                     </>
                 )}
             </ul>
+
             {/* Botón de WhatsApp */}
             <a
                 href="https://wa.me/573106469827" // Reemplaza con el número de teléfono

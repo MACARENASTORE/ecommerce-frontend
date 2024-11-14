@@ -33,13 +33,15 @@ const ManageOrders = () => {
     return (
         <div className="manage-orders">
             <h2>Gestión de Órdenes</h2>
-            <ul>
+            <div className="orders-list">
                 {orders.map(order => (
-                    <li key={order._id} className="order-item">
+                    <div key={order._id} className="order-card">
                         <p><strong>Orden ID:</strong> {order._id}</p>
+                        <p><strong>Cliente:</strong> {order.userId?.username || 'N/A'}</p>
                         <p><strong>Total:</strong> ${order.totalAmount.toFixed(2)}</p>
+                        <p><strong>Fecha del Pedido:</strong> {new Date(order.createdAt).toLocaleDateString()}</p>
                         <p><strong>Estado actual:</strong> {order.status}</p>
-                        <div>
+                        <div className="order-actions">
                             <label>Actualizar Estado:</label>
                             <select onChange={(e) => handleStatusChange(order._id, e.target.value)} value={order.status}>
                                 <option value="pending">Pendiente</option>
@@ -47,10 +49,18 @@ const ManageOrders = () => {
                                 <option value="delivered">Entregado</option>
                                 <option value="cancelled">Cancelado</option>
                             </select>
+                            {order.invoiceUrl && (
+                                <button 
+                                    className="download-button" 
+                                    onClick={() => window.open(order.invoiceUrl, '_blank')}
+                                >
+                                    Descargar Factura
+                                </button>
+                            )}
                         </div>
-                    </li>
+                    </div>
                 ))}
-            </ul>
+            </div>
         </div>
     );
 };

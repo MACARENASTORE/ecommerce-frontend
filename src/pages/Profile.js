@@ -134,6 +134,16 @@ const Profile = () => {
                                 <button onClick={() => handleViewOrder(order)} className="view-order-button">
                                     Ver Detalles
                                 </button>
+                                {order.invoiceUrl && (
+                                    <a
+                                        href={order.invoiceUrl}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="download-invoice-button"
+                                    >
+                                        Descargar Factura
+                                    </a>
+                                )}
                             </li>
                         ))}
                     </ul>
