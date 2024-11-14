@@ -1,14 +1,13 @@
 // src/pages/ManageInvoices.js
 import React, { useState, useEffect } from 'react';
 import { fetchSuppliers } from '../services/supplierService';
-import { fetchProducts } from '../services/productService';
+import { searchProducts } from '../services/productService'; // Cambia a usar la función de búsqueda
 import { fetchInvoices, createInvoice, fetchInvoiceById } from '../services/invoiceService';
 import InvoiceModal from '../components/Invoice/InvoiceModal';
 import '../styles/ManageInvoices.css';
 
 const ManageInvoices = () => {
     const [suppliers, setSuppliers] = useState([]);
-    const [products, setProducts] = useState([]);
     const [invoiceProducts, setInvoiceProducts] = useState([]);
     const [selectedSupplier, setSelectedSupplier] = useState('');
     const [totalAmount, setTotalAmount] = useState(0);
@@ -17,25 +16,36 @@ const ManageInvoices = () => {
     const [selectedInvoice, setSelectedInvoice] = useState(null);
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    useEffect(() => {
-        const loadSuppliersAndProducts = async () => {
-            const suppliersData = await fetchSuppliers();
-            const productsData = await fetchProducts();
-            setSuppliers(suppliersData);
-            setProducts(productsData);
-        };
+    const [searchQuery, setSearchQuery] = useState(''); // Para almacenar la búsqueda de productos
+    const [searchResults, setSearchResults] = useState([]); // Para almacenar los resultados de búsqueda
 
-        const loadInvoices = async () => {
+    useEffect(() => {
+        const loadSuppliersAndInvoices = async () => {
+            const suppliersData = await fetchSuppliers();
             const invoicesData = await fetchInvoices();
+            setSuppliers(suppliersData);
             setInvoices(invoicesData);
         };
-
-        loadSuppliersAndProducts();
-        loadInvoices();
+        loadSuppliersAndInvoices();
     }, []);
 
-    const addProductToInvoice = () => {
-        setInvoiceProducts([...invoiceProducts, { productId: '', quantity: 1, price: 0 }]);
+    const handleSearch = async () => {
+        if (searchQuery.trim()) {
+            try {
+                const results = await searchProducts(searchQuery);
+                setSearchResults(results);
+            } catch (error) {
+                console.error("Error al buscar productos:", error);
+            }
+        } else {
+            setSearchResults([]);
+        }
+    };
+
+    const addProductToInvoice = (product) => {
+        setInvoiceProducts([...invoiceProducts, { productId: product._id, name: product.name, quantity: 1, price: product.price }]);
+        setSearchResults([]); // Limpiar resultados después de agregar
+        setSearchQuery(''); // Limpiar campo de búsqueda
     };
 
     const handleProductChange = (index, field, value) => {
@@ -103,17 +113,33 @@ const ManageInvoices = () => {
             </div>
 
             <h2>Productos en la Factura</h2>
+            
+            {/* Buscador de productos */}
+            <div className="product-search">
+                <input
+                    type="text"
+                    placeholder="Buscar producto por nombre"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <button onClick={handleSearch}>Buscar</button>
+            </div>
+            
+            {/* Resultados de búsqueda */}
+            {searchResults.length > 0 && (
+                <div className="search-results">
+                    {searchResults.map((product) => (
+                        <div key={product._id} className="search-result-item">
+                            <span>{product.name} - ${product.price}</span>
+                            <button onClick={() => addProductToInvoice(product)}>Agregar</button>
+                        </div>
+                    ))}
+                </div>
+            )}
+
             {invoiceProducts.map((product, index) => (
                 <div key={index} className="invoice-item">
-                    <select
-                        value={product.productId}
-                        onChange={(e) => handleProductChange(index, 'productId', e.target.value)}
-                    >
-                        <option value="">Seleccione un producto</option>
-                        {products.map(p => (
-                            <option key={p._id} value={p._id}>{p.name}</option>
-                        ))}
-                    </select>
+                    <span>{product.name}</span>
                     <input
                         type="number"
                         placeholder="Cantidad"
@@ -128,8 +154,7 @@ const ManageInvoices = () => {
                     />
                 </div>
             ))}
-            <button className="button" onClick={addProductToInvoice}>Añadir Producto</button>
-
+            
             <h3 className="total-amount">Total: ${totalAmount}</h3>
             <button className="button" onClick={handleCreateInvoice}>Crear Factura</button>
 

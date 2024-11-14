@@ -158,7 +158,7 @@ const ProductManager = () => {
                 </select>
                 <input
                     type="file"
-                    onChange={(e) => setNewProduct({ ...newProduct, image: e.target.files[0] })}
+                    onChange={(e) => setNewProduct({ ...newProduct, image: e.target.files[0] })} 
                 />
                 <input
                     type="text"
@@ -194,14 +194,11 @@ const ProductManager = () => {
                     {products.map((product) => (
                         <tr key={product._id}>
                             <td>
-                                {product.image && product.image[0] ? (
-                                    <img
-                                        src={product.image[0]}
-                                        alt={product.name}
-                                        className="product-thumbnail"
-                                        onClick={() => document.getElementById(`image-upload-${product._id}`).click()}
-                                    />
-                                ) : 'Sin imagen'}
+                                <div onClick={() => document.getElementById(`image-upload-${product._id}`).click()} style={{ cursor: 'pointer' }}>
+                                    {product.image && product.image[0] ? (
+                                        <img src={product.image[0]} alt={product.name} className="product-thumbnail" />
+                                    ) : 'Sin imagen'}
+                                </div>
                                 <input
                                     type="file"
                                     id={`image-upload-${product._id}`}
