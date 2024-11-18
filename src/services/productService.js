@@ -16,14 +16,11 @@ const handleError = (error) => {
     throw new Error(error.response?.data?.message || 'Error en la solicitud');
 };
 
-// Obtener todos los productos
-export const fetchProducts = async () => {
-    try {
-        const response = await axiosInstance.get('/products');
-        return response.data;
-    } catch (error) {
-        handleError(error);
-    }
+// Obtener todos los productos con paginación
+export const fetchProducts = async (page = 1, limit = 30) => {
+    const response = await fetch(`${API_BASE_URL}/products?page=${page}&limit=${limit}`);
+    if (!response.ok) throw new Error('Error al obtener los productos');
+    return response.json();
 };
 
 // Obtener un producto por ID
